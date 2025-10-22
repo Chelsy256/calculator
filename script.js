@@ -1,3 +1,6 @@
+let memory = 0; // Stores the memory value
+
+
 const display = document.getElementById('display');
 const buttons = document.querySelectorAll('button');
 
@@ -15,16 +18,27 @@ buttons.forEach(btn => {
         let result = eval(display.value);
         // Round to 4 decimal places if it's a float
         display.value = result % 1 !== 0 ? parseFloat(result).toFixed(4) : result;
-      console.log("Evaluated result:", result);
+        console.log("Evaluated result:", result);
       } catch {
         display.value = 'Error';
       }
     } else if (value === '←') {
       display.value = display.value.slice(0, -1);
-    } else {
-      display.value += value;
-    }
-  });
+    } else if (value === 'M+') {
+        try {
+          memory += parseFloat(display.value) || 0;
+          console.log("Memory updated:", memory);
+        } catch {
+          console.log("Memory update failed");
+        }
+      } else if (value === 'MR') {
+        display.value += memory;
+        console.log("Memory recalled:", memory);
+
+      } else {
+        display.value += value;
+      }
+    });
 });
 
 // Handle keyboard input
